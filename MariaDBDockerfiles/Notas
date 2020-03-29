@@ -1,0 +1,27 @@
+Esta contenedor es un coñazo pero nos sirvio para aprender.
+
+No se puede inicializar una base de datos a partir de un .sh o un .sql en el Dockerfile.
+En la carpeta Ejemplo hay un workarround, yo lo intente pero no pude:
+
+FROM mariadb:10.3
+
+# ENVIROMENT VARIABLES
+ENV MYSQL_ROOT_PASSWORD=admin
+ENV MYSQL_DATABASE=test_db
+ENV MYSQL_USER=usuario
+ENV MYSQL_PASSWORD=usuario
+
+WORKDIR /usr/mysql_service
+
+COPY create_test_database.sql init-test-database.sh ./
+
+y luego, despues de crear la imagen con nombre sgbd, ejecutar:
+
+docker run --name db -d -p 3306:3306 sgbd
+docker exec db ./init-test-database.sh
+
+El problema es que hay un error de sintaxis en el SQL que no se identificar.
+
+Espero que tu en un futuro te sepas la sintaxis de MariaDB.
+
+Otra forma es con un xml y haciendo docker-compose, pero tampoco funciono.
